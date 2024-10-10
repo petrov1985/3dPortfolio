@@ -1,12 +1,17 @@
 import React from "react";
 import { myProjects } from "../constants/index.js";
 import { useState } from "react";
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls, Center } from "@react-three/drei";
+import { Suspense } from "react";
+import CanvasLoader from "../components/CanvasLoader.jsx";
+import DemoComputer from "../components/DemoComputer.jsx";
 
 const projectCount = myProjects.length;
 const Projects = () => {
 
   const [selctedProjectIndex, setSelctedProjectIndex] = useState(0);
-  const currentProject = myProjects[0];
+  const currentProject = myProjects[selctedProjectIndex];
 
   const handleNavigation = (direction) => {
     setSelctedProjectIndex((prevIndex) => {
@@ -20,7 +25,7 @@ const Projects = () => {
 };
 
   return (
-    <div className="c-space my-20">
+    <section className="c-space my-20">
       <p className="head-text">My work</p>
       <div className="grid lg:grid-cols-2 grid-cols-1 mt-12 gap-5 w-full">
         <div className="flex flex-col gap-5 relative sm:p-10 py-10 px-5 shadow-2xl shadow-black-200">
@@ -87,8 +92,24 @@ const Projects = () => {
             </button>
           </div>
         </div>
+        <div className="border border-black-300 bg-black-200 rounded-lg h-96 md:h-full">
+          <Canvas>
+            <ambientLight intensity={Math.PI} />
+            <directionalLight position={[10, 10, 5]} />
+            <Center>
+              <Suspense fallback={<CanvasLoader />}>
+                <group scale={2} position={[0, -3, 0]} rotation={[0, -0.1, 0]}>
+
+                  <DemoComputer texture={currentProject.texture} />
+                  
+                </group>
+              </Suspense>
+            </Center>
+            <OrbitControls maxPolarAngle={Math.PI / 2} enableZoom={false} />
+          </Canvas>
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 
