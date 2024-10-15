@@ -1,6 +1,6 @@
 import { useRef, useEffect } from 'react'
 import { useGLTF, useVideoTexture } from '@react-three/drei'
-import { useGSAP } from '@react-three/fiber'
+import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 
 const DemoComputer = (props) => {
